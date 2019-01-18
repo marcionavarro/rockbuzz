@@ -56,8 +56,6 @@ email: admin@test.com | senha: 123456
  
 ** O design das interfaces não será avaliado, o foco deve ser na gestão das informações e codificação **
 
-![Alt text](database.png?raw=true "Estrutura do banco de dados")
-
 ### Diferenciais
 
 1. Infraestrutura dockerizada; 

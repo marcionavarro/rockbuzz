@@ -52,16 +52,18 @@ email: admin@test.com | senha: 123456
  
 ##### Trabalho esperado
 
- - Refatoração e otimização de trechos de código que não estão em conformidade com boas prática de programação, padrões, documentações, etc..
- 
-** O design das interfaces não será avaliado, o foco deve ser na gestão das informações e codificação **
+ - Refatorar e otimizar trechos de código que não estão em conformidade com boas prática de programação, padrões, documentações, etc...;
+ - Agregar dados ao post como por ex.: quem criou, imagem para capa, um formato de url, uma forma de distinguir publicados de não publicados, etc...; 
+ - Melhorar apresentação e gestão das informações.
+
+** Seja criativo, estamos tentando simular um blog! **
 
 ### Diferenciais
 
 1. Infraestrutura dockerizada; 
 2. Versionamento;
 3. Testes automátizados;
-4. Funcionalidades extras como filtros de posts, pesquisas, etc... 
+4. HTML5 semântico, CSS3, Sass e JavaScript ES6
 5. Tempo de conclusão.
 
 ** Notificar no email processoseletivo@rockbuzz.com.br a conclusão do teste **

@@ -6,7 +6,7 @@ Entendemos o modelo de negócio de nossos clientes para então traçar o plano d
 ### Teste Full Stack Laravel
 Este teste consiste em entendermos um pouco mais sobre seus conhecimentos de frontend e backend no Laravel
 
-## Requirements
+## Requisitos
 
 PHP >= 7.1.3
 

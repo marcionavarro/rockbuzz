@@ -52,6 +52,7 @@ email: admin@test.com | senha: 123456
  
 ##### Trabalho esperado
 
+ - Versionar em um repositório da sua conta no Github;
  - Refatorar e otimizar trechos de código que não estão em conformidade com boas prática de programação, padrões, documentações, etc...;
  - Agregar dados ao post como por ex.: quem criou, imagem para capa, um formato de url, uma forma de distinguir publicados de não publicados, etc...; 
  - Melhorar apresentação e gestão das informações;
@@ -71,7 +72,9 @@ email: admin@test.com | senha: 123456
 
 ** Enviar uma mensagem para processoseletivo@rockbuzz.com.br com: **
 
+ - Link do teste;
  - Celular;
  - Cidade/Estado;
  - Formação;
- - Github/Portfólio/Currículo
+ - Portfólio
+ - Currículo

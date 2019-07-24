@@ -55,15 +55,14 @@ email: admin@test.com | senha: 123456
  - Versionar em um repositório da sua conta no Github;
  - Refatorar e otimizar trechos de código que não estão em conformidade com boas prática de programação, padrões, documentações, etc...;
  - Agregar dados ao post como por ex.: quem criou, imagem para capa, um formato de url, uma forma de distinguir publicados de não publicados, etc...; 
- - Melhorar apresentação e gestão das informações;
- - Atualização de dependencias e frameworks.
+ - Melhorar apresentação e gestão das informações.
 
 ** Seja criativo, estamos tentando simular um blog! **
 
 ### Diferenciais
 
 1. Infraestrutura dockerizada; 
-2. Versionamento;
+2. Atualização de dependencias e frameworks;
 3. Testes automátizados;
 4. HTML5 semântico, CSS3, Sass e JavaScript ES6
 5. Tempo de conclusão.

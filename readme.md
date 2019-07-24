@@ -54,7 +54,8 @@ email: admin@test.com | senha: 123456
 
  - Refatorar e otimizar trechos de código que não estão em conformidade com boas prática de programação, padrões, documentações, etc...;
  - Agregar dados ao post como por ex.: quem criou, imagem para capa, um formato de url, uma forma de distinguir publicados de não publicados, etc...; 
- - Melhorar apresentação e gestão das informações.
+ - Melhorar apresentação e gestão das informações;
+ - Atualização de dependencias e frameworks.
 
 ** Seja criativo, estamos tentando simular um blog! **
 
@@ -66,4 +67,9 @@ email: admin@test.com | senha: 123456
 4. HTML5 semântico, CSS3, Sass e JavaScript ES6
 5. Tempo de conclusão.
 
-** Notificar no email processoseletivo@rockbuzz.com.br a conclusão do teste **
+##### Enviar uma mensagem para processoseletivo@rockbuzz.com.br com:
+
+ - Celular;
+ - Cidade/Estado;
+ - Formação;
+ - Github/Portfólio/Currículo

@@ -18,9 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/posts', 'PostsController@listar');
-Route::get('/posts/create', 'PostsController@criar');
-Route::post('/posts/store', 'PostsController@salvar');
-Route::get('/posts/edit/{id}', 'PostsController@editar');
-Route::post('/posts/update/{id}', 'PostsController@atualizar');
-Route::get('/posts/destroy/{id}', 'PostsController@deletar');
+
+Route::resource('/categorias', 'CategoriesController');
+
+Route::resource('/posts', 'PostsController');
+Route::get('/posts-na-lixeira', 'PostsController@trashed')->name('posts-na-lixeira.index');
+

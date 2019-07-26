@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+use App\Post;
 
 class PostsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function listar()
-    {
-        $posts = \App\Post::all();
-
-        return view('posts.index', ['posts' => $posts]);
+    public function index()
+    {   
+        return view('posts.index')->with('posts', Post::all());
     }
 
     /**
@@ -29,8 +23,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function criar()
+    public function create()
     {
+
         return view('posts.create');
     }
 
@@ -40,28 +35,34 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function salvar(Request $request)
+    public function store(PostRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required'
-        ]);
-
-        \App\Post::create([
+        // Uploade a imagem para armazenamento
+        $image = $request->image->store('posts');
+        // criar o post
+        $post = Post::create([
+            'image' => $image,
             'title' => $request->title,
-            'body' => $request->body,
+            'description' => $request->description,
+            'content' => $request->content
         ]);
 
-        $post = \App\Post::where('title', $request->title)->get();
+        // mensagem flash
+        session()->flash('success', "Post $post->title criado com sucesso");
 
-        foreach ($request->tags as $tag) {
-            \DB::table('tag_post')->insert([
-                'tag_id' => $tag->id,
-                'post_id' => $post[0]->id
-            ]);
-        }
+        // redirecionar
+        return redirect()->route('posts.index');
+    }
 
-        return redirect('posts');
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -70,11 +71,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editar($id)
+    public function edit($id)
     {
-        $post = \App\Post::find($id);
-
-        return view('posts.edit', ['post' => $post]);
+        //
     }
 
     /**
@@ -84,30 +83,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function atualizar(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required'
-        ]);
-
-        $post = \App\Post::find($id);
-
-        $post->update([
-            'title' => $request->title,
-            'body' => $request->body,
-        ]);
-
-        \DB::table('tag_post')->where('post_id', '=', $post->id)->delete();
-
-        foreach ($request->tags as $tag_id) {
-            \DB::table('tag_post')->insert([
-                'tag_id' => $tag_id,
-                'post_id' => $post->id
-            ]);
-        }
-
-        return redirect('posts');
+        //
     }
 
     /**
@@ -116,14 +94,29 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deletar($id)
+    public function destroy($id)
     {
-        $post = \App\Post::find($id);
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
 
-        $post->delete();
+        if($post->trashed()){
+            $post->forceDelete();
+            session()->flash('success', "Post $post->name excluido permanentemente com sucesso");
+        }else{
+            $post->delete();
+            session()->flash('success', "Post $post->name enviado para a lixeira com sucesso");
+        }
+        
+        return redirect()->route('posts.index');
+    }
 
-        \DB::table('tag_post')->where('post_id', '=', $post->id)->delete();
-
-        return redirect('posts');
+    /**
+     * Exibir uma lista de todas as postagens descartadas
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashed()
+    {
+        $trashed = Post::withTrashed()->get();
+        return view('posts.index')->with('posts', $trashed);
     }
 }

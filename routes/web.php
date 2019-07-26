@@ -23,4 +23,5 @@ Route::resource('/categorias', 'CategoriesController');
 
 Route::resource('/posts', 'PostsController');
 Route::get('/posts-na-lixeira', 'PostsController@trashed')->name('posts-na-lixeira.index');
+Route::put('/restaurar-post/{post}', 'PostsController@restore')->name('restaurar-post');
 

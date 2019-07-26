@@ -9,6 +9,7 @@
 <div class="card">
     <div class="card-header">Categorias</div>
     <div class="card-body">
+        @if ($categorias->count() > 0)
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -30,6 +31,9 @@
                 @endforeach
             </tbody>
         </table>
+        @else
+        <h3 class="text-center text-white bg-info p-4">Não Existem categorias no momento</h3>          
+        @endif
     </div>
 </div>
 

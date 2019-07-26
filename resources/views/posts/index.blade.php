@@ -9,6 +9,7 @@
 <div class="card">
     <div class="card-header">Posts</div>
     <div class="card-body">
+        @if ($posts->count() > 0)       
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -22,8 +23,15 @@
                     <td><img class="img-thumbnail" src="{{ asset('storage/' .$post->image) }}" alt="" width="80"></td>
                     <td>{{ $post->title }}</td>
                     <td class="d-flex justify-content-end">
-                        @if (!$post->trashed())
-                        <a href="" class="btn btn-info btn-sm text-white">Editar</a>
+                        @if ($post->trashed())
+                        <form method="post" action="{{ route('restaurar-post', $post->id) }}">
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-success btn-sm text-white" type="submit">restaurar post</button>
+                        </form>
+                        
+                        @else
+                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info btn-sm text-white">Editar</a>
                         @endif
                         <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
                             @csrf
@@ -36,6 +44,9 @@
                 @endforeach
             </tbody>
         </table>
+        @else
+        <h3 class="text-center text-white bg-info p-4">Não Existem posts no momento</h3>
+        @endif
     </div>
 </div>
 @endsection

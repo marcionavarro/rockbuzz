@@ -151,6 +151,7 @@ return [
         'description' => 'descrição',
         'image' => 'imagem',
         'content' => 'conteúdo',
+        'published_at' => 'publicar em'
     ],
 
 ];

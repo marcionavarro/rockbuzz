@@ -14,6 +14,7 @@ class AddCompletePostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
+                $table->integer('category_id')->default('');
                 $table->string('description')->after('title')->default('');
                 $table->text('content')->after('description')->default('')->change();
                 $table->string('image')->after('content')->default('');

@@ -17,10 +17,11 @@
         @endif
 
 
-        <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}"
+            enctype="multipart/form-data">
             @csrf
             @if (isset($post))
-                @method('PUT')
+            @method('PUT')
             @endif
 
             <div class="form-group">
@@ -46,6 +47,19 @@
                 <label for="content">Conteudo</label>
                 <input id="content" type="hidden" name="content" value="{{ (isset($post) ? $post->content : '') }}">
                 <trix-editor input="content"></trix-editor>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Categoria</label>
+                <select id="category" class="form-control" name="category">
+                    <option value="">Escolha uma categoria</option>
+                    @foreach ($categorias as $categoria)
+                    <option value="{{ ($categoria->id) }}"
+                        {{ (isset($post) ? ($categoria->id == $post->category_id ? 'selected' : '') : '') }}>
+                        {{ $categoria->name }}
+                    </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">

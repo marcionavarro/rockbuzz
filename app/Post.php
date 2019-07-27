@@ -11,8 +11,13 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'image', 'title', 'description', 'content', 'published_at'
+        'image', 'title', 'description', 'content',  'category_id', 'published_at'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     /**
      * excluir a imagem do storage

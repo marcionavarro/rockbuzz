@@ -13,13 +13,15 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th colspan="4">Nome</th>
+                    <th>Nome</th>
+                    <th colspan="2">Posts</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($categorias as $categoria)
                 <tr>
                     <td>{{ $categoria->name }}</td>
+                    <td class="text-center">{{ $categoria->posts->count() }}</td>
                     <td class="d-flex justify-content-end">
                         <a href="{{ route('categorias.edit', $categoria->id) }}"
                             class="btn btn-info btn-sm text-white">Editar</a>

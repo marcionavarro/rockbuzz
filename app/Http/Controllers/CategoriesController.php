@@ -14,7 +14,7 @@ class CategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         return view('categories.index')->with('categorias', Category::all());
     }
 

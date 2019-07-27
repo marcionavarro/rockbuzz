@@ -14,7 +14,8 @@
             <thead class="thead-light">
                 <tr>
                     <th>Imagem</th>
-                    <th colspan="2">Título</th>
+                    <th>Título</th>
+                    <th colspan="2">Categoria</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@
                 <tr>
                     <td><img class="img-thumbnail" src="{{ asset('storage/' .$post->image) }}" alt="" width="80"></td>
                     <td>{{ $post->title }}</td>
+                    <td><a href="{{ route('categorias.edit', $post->category->id) }}">{{ $post->category->name }}</a></td>
                     <td class="d-flex justify-content-end">
                         @if ($post->trashed())
                         <form method="post" action="{{ route('restaurar-post', $post->id) }}">

@@ -6,20 +6,7 @@
         {{ (isset($post) ? 'Editar Post' : 'Criar Post') }}
     </div>
     <div class="card-body">
-<<<<<<< HEAD
         @include('includes.errors')
-=======
-        @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <ul class="list-group">
-                @foreach ($errors->all() as $error)
-                <li class="list-group-item text-danger">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
->>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
 
         <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}"
             enctype="multipart/form-data">

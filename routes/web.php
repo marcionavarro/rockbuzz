@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\Blog\PostsController;
+
 // use Symfony\Component\Routing\Annotation\Route;
 
 /*
@@ -12,9 +14,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index');
+Route::get('/posts/{post}', [PostsController::class, 'show']);
 
 Auth::routes();
 

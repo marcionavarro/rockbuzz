@@ -1,73 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.blog')
 
-<head>
+@section('title')
+RockBuzz - Blog
+@endsection
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+@section('header')
+<!-- Header -->
+<header class="header text-center text-white"
+  style="background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);">
+  <div class="container">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>Rockbuzz - Teste Full Stack Laravel</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">Rockbuzz Teste Full Stack Laravel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Blog
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                @auth
-                    <li class="nav-item">
-                        <a href="{{ url('/home') }}" class="nav-link">Admin</a>
-                    </li>
-                    @else
-                        <li class="nav-item">
-                            <a href="{{ route('login') }}" class="nav-link">Login</a>
-                        </li>
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a href="{{ route('register') }}" class="nav-link">Register</a>
-                            </li>
-                        @endif
-                        @endauth
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Page Content -->
-<div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <div id="app">
-                <posts></posts>
-            </div>
-        </div>
+      <div class="col-md-8 mx-auto">
+
+        <h1>Últimas Postagens do Blog</h1>
+        <p class="lead-2 opacity-90 mt-6">Leia e fique atualizado sobre como progredimos</p>
+
+      </div>
     </div>
-</div>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" defer></script>
-<script src="{{ asset('js/app.js') }}" defer></script>
 
-</body>
+  </div>
+</header>
+<!-- /.header -->
+@endsection
 
-</html>
+@section('content')
+<!-- Main Content -->
+<main class="main-content">
+  <div class="section bg-gray">
+    <div class="container">
+      <div class="row">
 
+
+        <div class="col-md-8 col-xl-9">
+          <div class="row gap-y">
+            @foreach ($posts as $post)
+            <div class="col-md-6">
+              <div class="card border hover-shadow-6 mb-6 d-block">
+                <a href="#"><img class="card-img-top" src="{{ asset('storage/' . $post->image) }}"
+                    alt="Card image cap"></a>
+                <div class="p-6 text-center">
+                  <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400" href="#">{{ $post->category->name }}</a>
+                  </p>
+                  <h5 class="mb-0"><a class="text-dark" href="#">{{ $post->title }}</a>
+                  </h5>
+                </div>
+              </div>
+            </div>
+            @endforeach
+          </div>
+
+
+          <nav class="flexbox mt-30">
+            <a class="btn btn-white disabled"><i class="ti-arrow-left fs-9 mr-4"></i> Proxímo</a>
+            <a class="btn btn-white" href="#">Anterior <i class="ti-arrow-right fs-9 ml-4"></i></a>
+          </nav>
+        </div>
+
+
+
+        <div class="col-md-4 col-xl-3">
+          <div class="sidebar px-4 py-md-0">
+
+            <h6 class="sidebar-title">Search</h6>
+            <form class="input-group" target="#" method="GET">
+              <input type="text" class="form-control" name="s" placeholder="Search">
+              <div class="input-group-addon">
+                <span class="input-group-text"><i class="ti-search"></i></span>
+              </div>
+            </form>
+
+            <hr>
+
+            <h6 class="sidebar-title">Categories</h6>
+            <div class="row link-color-default fs-14 lh-24">
+              @foreach ($categorias as $categoria)
+              <div class="col-6"><a href="#">{{ $categoria->name }}</a></div>
+              @endforeach
+            </div>
+
+            <hr>
+
+            <h6 class="sidebar-title">Top posts</h6>
+            @foreach ($posts as $post)
+            <a class="media text-default align-items-center mb-5" href="blog-single.html">
+              <img class="rounded w-65px mr-4" src="{{ asset('storage/' . $post->image) }}">
+              <p class="media-body small-2 lh-4 mb-0">{{ $post->title }}</p>
+            </a>
+            @endforeach
+
+            <hr>
+
+            <h6 class="sidebar-title">Tags</h6>
+            <div class="gap-multiline-items-1">
+              @foreach ($tags as $tag)
+              <a class="badge badge-secondary" href="#">{{ $tag->name }}</a>
+              @endforeach
+            </div>
+
+            <hr>
+
+            <h6 class="sidebar-title">About</h6>
+            <p class="small-3">TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and
+              WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any
+              kind of landing pages.</p>
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+@endsection

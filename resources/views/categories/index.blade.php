@@ -21,7 +21,11 @@
                 @foreach ($categorias as $categoria)
                 <tr>
                     <td>{{ $categoria->name }}</td>
+<<<<<<< HEAD
                     <td>{{ $categoria->posts->count() }}</td>
+=======
+                    <td class="text-center">{{ $categoria->posts->count() }}</td>
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
                     <td class="d-flex justify-content-end">
                         <a href="{{ route('categorias.edit', $categoria->id) }}"
                             class="btn btn-info btn-sm text-white">Editar</a>

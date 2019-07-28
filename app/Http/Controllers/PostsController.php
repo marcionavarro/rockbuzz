@@ -7,7 +7,10 @@ use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Category;
+<<<<<<< HEAD
 use App\Tag;
+=======
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
 
 class PostsController extends Controller
 {
@@ -33,7 +36,12 @@ class PostsController extends Controller
      */
     public function create()
     {
+<<<<<<< HEAD
         return view('posts.create')->with(['categorias' => Category::all(), 'tags' => Tag::all()]);
+=======
+
+        return view('posts.create')->with('categorias', Category::all());
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
     }
 
     /**
@@ -52,8 +60,12 @@ class PostsController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'category_id' => $request->category,
+<<<<<<< HEAD
             'published_at' => $request->published_at,
             'image' => $image
+=======
+            'published_at' => $request->published_at
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
         ]);
 
         if ($request->tags) {
@@ -86,7 +98,11 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
+<<<<<<< HEAD
         return view('posts.create')->with(['post' => $post, 'categorias' => Category::all(), 'tags' => Tag::all()]);
+=======
+        return view('posts.create')->with(['post' => $post, 'categorias' => Category::all()]);
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
     }
 
     /**
@@ -98,8 +114,12 @@ class PostsController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+<<<<<<< HEAD
         $data = $request->only(['title', 'description', 'content', 'category', 'published_at']);
         $post->category_id = $data['category'];
+=======
+        $data = $request->only(['title', 'description', 'content', 'published_at']);
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
 
         // verifique se a nova imagem
         if ($request->hasFile('image')) {
@@ -139,7 +159,11 @@ class PostsController extends Controller
         if ($post->trashed()) {
             $post->deleteImage();
             $post->forceDelete();
+<<<<<<< HEAD
             session()->flash('success', "Post $post->title excluido permanentemente com sucesso");
+=======
+            session()->flash('success', "Post $post->name excluido permanentemente com sucesso");
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
         } else {
             $post->delete();
             session()->flash('success', "Post $post->title enviado para a lixeira com sucesso");

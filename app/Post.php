@@ -12,7 +12,11 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
+<<<<<<< HEAD
         'title', 'description', 'content', 'category_id', 'published_at', 'image'
+=======
+        'image', 'title', 'description', 'content',  'category_id', 'published_at'
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
     ];
 
     public function category()
@@ -20,11 +24,14 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
+<<<<<<< HEAD
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
+=======
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
     /**
      * delete post image from storage
      *

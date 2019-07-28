@@ -6,7 +6,20 @@
         {{ (isset($post) ? 'Editar Post' : 'Criar Post') }}
     </div>
     <div class="card-body">
+<<<<<<< HEAD
         @include('includes.errors')
+=======
+        @if ($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <ul class="list-group">
+                @foreach ($errors->all() as $error)
+                <li class="list-group-item text-danger">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+>>>>>>> 1f09d741f781ba55fcfffb590b7b2fd7669c2a4e
 
         <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}"
             enctype="multipart/form-data">
@@ -74,6 +87,19 @@
                     <p class="text-center text-white bg-info mx-4 p-1">não existem tags no momento</p>
                     @endif
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Categoria</label>
+                <select id="category" class="form-control" name="category">
+                    <option value="">Escolha uma categoria</option>
+                    @foreach ($categorias as $categoria)
+                    <option value="{{ ($categoria->id) }}"
+                        {{ (isset($post) ? ($categoria->id == $post->category_id ? 'selected' : '') : '') }}>
+                        {{ $categoria->name }}
+                    </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="form-group">

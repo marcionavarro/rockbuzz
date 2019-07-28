@@ -2,28 +2,26 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header">{{ (isset($categoria) ? 'Editar Categoria' : 'Criar Categoria') }}</div>
+    <div class="card-header">{{ (isset($tag) ? 'Editar Tag' : 'Criar Tag') }}</div>
     <div class="card-body">
         @include('includes.errors')
 
-        <form
-            action="{{ (isset($categoria) ? route('categorias.update', $categoria->id) : route('categorias.store')) }}"
-            method="post">
+        <form action="{{ (isset($tag) ? route('tags.update', $tag->id) : route('tags.store')) }}" method="post">
             @csrf
 
-            @if (isset($categoria))
+            @if (isset($tag))
             @method('PUT')
             @endif
 
             <div class="form-group">
                 <label for="name">Nome</label>
                 <input id="name" class="form-control" type="text" name="name"
-                    value="{{ (isset($categoria) ? $categoria->name : '') }}">
+                    value="{{ (isset($tag) ? $tag->name : '') }}">
             </div>
 
             <div class="form-group">
                 <button class="btn btn-success"
-                    type="submit">{{ (isset($categoria) ? 'Atualizar Categoria' : 'Adicionar Categoria') }}</button>
+                    type="submit">{{ (isset($tag) ? 'Atualizar Tag' : 'Adicionar Tag') }}</button>
             </div>
         </form>
     </div>

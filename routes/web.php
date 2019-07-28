@@ -1,4 +1,5 @@
 <?php
+// use Symfony\Component\Routing\Annotation\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('home', 'HomeController@index')->name('home');
 
-Route::resource('/categorias', 'CategoriesController');
+    Route::resource('categorias', 'CategoriesController');
 
-Route::resource('/posts', 'PostsController');
-Route::get('/posts-na-lixeira', 'PostsController@trashed')->name('posts-na-lixeira.index');
-Route::put('/restaurar-post/{post}', 'PostsController@restore')->name('restaurar-post');
+    Route::resource('posts', 'PostsController');
+    Route::resource('tags', 'TagsController');
 
+    Route::get('posts-na-lixeira', 'PostsController@trashed')->name('trashed-posts.index');
+    Route::put('restaurar-post/{post}', 'PostsController@restore')->name('restore-posts');
+});
+
+Route::middleware(['admin', 'auth'])->group(function () {
+    Route::get('usuarios/editar-perfil', 'UserController@edit')->name('users.edit-profile');
+    Route::put('usuarios/perfil', 'UserController@update')->name('users.update-profile');
+    Route::get('usuarios', 'UserController@index')->name('users.index');
+    Route::post('usuarios/{user}/mudar-admin', 'UserController@makeAdmin')->name('users.make-admin');
+});

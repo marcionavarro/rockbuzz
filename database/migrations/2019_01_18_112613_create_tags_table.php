@@ -19,10 +19,12 @@ class CreateTagsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('tag_post', function (Blueprint $table) {
-            $table->unsignedInteger('tag_id');
-            $table->unsignedInteger('post_id');
-        });
+        if (!Schema::hasTable('post_tag')) {
+            Schema::create('tag_post', function (Blueprint $table) {
+                $table->unsignedInteger('tag_id');
+                $table->unsignedInteger('post_id');
+            }); 
+        }
     }
 
     /**

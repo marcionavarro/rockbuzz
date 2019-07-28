@@ -6,25 +6,17 @@
         {{ (isset($post) ? 'Editar Post' : 'Criar Post') }}
     </div>
     <div class="card-body">
-        @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <ul class="list-group">
-                @foreach ($errors->all() as $error)
-                <li class="list-group-item text-danger">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        @include('includes.errors')
 
-
-        <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ (isset($post) ? route('posts.update', $post->id) : route('posts.store')) }}"
+            enctype="multipart/form-data">
             @csrf
             @if (isset($post))
-                @method('PUT')
+            @method('PUT')
             @endif
 
             <div class="form-group">
-                <img src="{{ (!empty($post) ? asset('storage/' . $post->image) : '') }}" alt="" class="mb-3 mr-2"
+                <img src="{{ (isset($post) ? asset('storage/' . $post->image) : '') }}" alt="" class="mb-3 mr-2"
                     style="width:10%">
                 <label for="image">Enviar Imagem:</label>
                 <input id="image" class="form-control p-1" type="file" name="image">
@@ -42,10 +34,46 @@
                     rows="2">{{ (isset($post) ? $post->description : '') }}</textarea>
             </div>
 
+
             <div class="form-group">
                 <label for="content">Conteudo</label>
                 <input id="content" type="hidden" name="content" value="{{ (isset($post) ? $post->content : '') }}">
                 <trix-editor input="content"></trix-editor>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="category">Categorias:</label>
+                    <select id="category" class="form-control" name="category">
+                        <option value="">Selecione uma Categoria</option>
+                        @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->id }}"
+                            {{ (isset($post) ? ($categoria->id == $post->category_id ? 'selected' : '') : '') }}>
+                            {{ $categoria->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+                <div class="form-group col-6">
+                    <label for="tags">Tags:</label>
+                    @if ($tags->count() > 0)
+                    <select id="tags" class="form-control tags-selector" name="tags[]" multiple>
+                        @foreach ($tags as $tag)
+                        <option value="{{ $tag->id }}" @if (isset($post)) @if ($post->hasTag($tag->id))
+                            selected
+                            @endif
+                            @endif>
+
+                            {{ $tag->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @else
+                    <p class="text-center text-white bg-info mx-4 p-1">não existem tags no momento</p>
+                    @endif
+                </div>
             </div>
 
             <div class="form-group">

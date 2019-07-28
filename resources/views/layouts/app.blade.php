@@ -62,6 +62,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('users.edit-profile') }}">
+                                    Meu Perfil
+                                </a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -89,27 +93,33 @@
                 </div>
                 @endif
 
+                @if (session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+                @endif
+
                 <div class="row">
                     <div class="col-md-4">
+                        @if (auth()->user()->isAdmin())
                         <ul class="list-group">
-                            <li class="list-group-item"><a href="{{-- {{ route('users.index') }} --}}" alt=""
+                            <li class="list-group-item"><a href="{{ route('users.index') }}" alt=""
                                     title="">Usuários</a>
                             </li>
                         </ul>
+                        @endif
 
                         <ul class="list-group my-3">
-                            <li class="list-group-item"><a href="{{ route('posts.index') }}" alt=""
-                                    title="">Posts</a>
+                            <li class="list-group-item"><a href="{{ route('posts.index') }}" alt="" title="">Posts</a>
                             </li>
-                            <li class="list-group-item"><a href="{{-- {{ route('tags.index') }} --}}" alt=""
-                                    title="">Tags</a>
+                            <li class="list-group-item"><a href="{{ route('tags.index') }}" alt="" title="">Tags</a>
                             </li>
                             <li class="list-group-item"><a href="{{ route('categorias.index') }}" alt=""
                                     title="">Categorias</a></li>
                         </ul>
 
                         <ul class="list-group">
-                            <li class="list-group-item"><a href="{{ route('posts-na-lixeira.index') }}" alt=""
+                            <li class="list-group-item"><a href="{{ route('trashed-posts.index') }}" alt=""
                                     title="">Lixeira de posts</a></li>
                         </ul>
                     </div>

@@ -3,13 +3,13 @@
 @section('content')
 
 <div class="d-flex justify-content-end mb-2">
-    <a href="{{ route('categorias.create') }}" class="btn btn-success text-white">Adicionar Categoria</a>
+    <a href="{{ route('tags.create') }}" class="btn btn-success text-white">Adicionar Tag</a>
 </div>
 
 <div class="card">
-    <div class="card-header">Categorias</div>
+    <div class="card-header">Tags</div>
     <div class="card-body">
-        @if ($categorias->count() > 0)
+        @if ($tags->count() > 0)
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -18,23 +18,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($categorias as $categoria)
+                @foreach ($tags as $tag)
                 <tr>
-                    <td>{{ $categoria->name }}</td>
-                    <td>{{ $categoria->posts->count() }}</td>
+                    <td>{{ $tag->name }}</td>
+                    <td>{{ $tag->posts->count() }}</td>
+                    
                     <td class="d-flex justify-content-end">
-                        <a href="{{ route('categorias.edit', $categoria->id) }}"
+                        <a href="{{ route('tags.edit', $tag->id) }}"
                             class="btn btn-info btn-sm text-white">Editar</a>
 
                         <button class="btn btn-danger btn-sm ml-1"
-                            onclick="Delete({{ $categoria->id }})">Deletar</button>
+                            onclick="Delete({{ $tag->id }})">Deletar</button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
         @else
-        <h3 class="text-center text-white bg-info p-4">Não Existem categorias no momento</h3>          
+        <h3 class="text-center text-white bg-info p-4">Não Existem tags no momento</h3>          
         @endif
     </div>
 </div>
@@ -48,14 +49,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModelLabel">Deletar Categoria</h5>
+                    <h5 class="modal-title" id="deleteModelLabel">Deletar tag</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-bold">Tem certeza que deseja excluir a categoria
-                        <small class="text-danger">{{ (!empty($categoria->name) ? $categoria->name : '') }}</small> ?
+                    <p class="text-bold">Tem certeza que deseja excluir a tag
+                        <small class="text-danger">{{ (!empty($tag->name) ? $tag->name : '') }}</small> ?
                     </p>
                 </div>
                 <div class="modal-footer">

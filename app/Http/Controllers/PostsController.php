@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Category;
+use App\Tag;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('VerifyCategoriesCount')->only(['create', 'store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         return view('posts.index')->with('posts', Post::all());
     }
 
@@ -26,8 +33,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-
-        return view('posts.create');
+        return view('posts.create')->with(['categorias' => Category::all(), 'tags' => Tag::all()]);
     }
 
     /**
@@ -42,12 +48,17 @@ class PostsController extends Controller
         $image = $request->image->store('posts');
         // criar o post
         $post = Post::create([
-            'image' => $image,
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
-            'published_at' => $request->published_at
+            'category_id' => $request->category,
+            'published_at' => $request->published_at,
+            'image' => $image
         ]);
+
+        if ($request->tags) {
+            $post->tags()->attach($request->tags);
+        }
 
         // mensagem flash
         session()->flash('success', "Post $post->title criado com sucesso");
@@ -75,7 +86,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post', $post);
+        return view('posts.create')->with(['post' => $post, 'categorias' => Category::all(), 'tags' => Tag::all()]);
     }
 
     /**
@@ -87,16 +98,22 @@ class PostsController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $data = $request->only(['title', 'description' , 'content', 'published_at']);
-        
+        $data = $request->only(['title', 'description', 'content', 'category', 'published_at']);
+        $post->category_id = $data['category'];
+
         // verifique se a nova imagem
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->image->store('posts');
 
             // excluir imagem antiga
-           $post->deleteImage();
+            $post->deleteImage();
 
             $data['image'] = $image;
+        }
+
+        // Atualizar tags
+        if($request->tags){
+            $post->tags()->sync($request->tags);
         }
 
         // atualizar o post
@@ -119,15 +136,15 @@ class PostsController extends Controller
     {
         $post = Post::withTrashed()->where('id', $id)->firstOrFail();
 
-        if($post->trashed()){
+        if ($post->trashed()) {
             $post->deleteImage();
             $post->forceDelete();
-            session()->flash('success', "Post $post->name excluido permanentemente com sucesso");
-        }else{
+            session()->flash('success', "Post $post->title excluido permanentemente com sucesso");
+        } else {
             $post->delete();
-            session()->flash('success', "Post $post->name enviado para a lixeira com sucesso");
+            session()->flash('success', "Post $post->title enviado para a lixeira com sucesso");
         }
-        
+
         return redirect()->route('posts.index');
     }
 
@@ -143,7 +160,7 @@ class PostsController extends Controller
     }
 
 
-   /**
+    /**
      * Restaurar o post da lixeira
      *
      * @param  int  $id
@@ -152,6 +169,7 @@ class PostsController extends Controller
     public function restore($id)
     {
         $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+        $post->restore();
 
         session()->flash('success', "Post $post->title restaurado com sucesso");
         return redirect()->route('posts.index');

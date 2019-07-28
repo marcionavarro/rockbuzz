@@ -36,11 +36,9 @@ class CategoriesController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = Category::create([
-            'name' => $request->name
-        ]);
+        $categoria = Category::create(['name' => $request->name]);
 
-        session()->flash('success', "Categoria $category->name criada com sucesso");
+        session()->flash('success', "Categoria $categoria->name criada com sucesso");
         return redirect()->route('categorias.index');
     }
 
@@ -75,8 +73,7 @@ class CategoriesController extends Controller
      */
     public function update(CategoryRequest $request, Category $categoria)
     {
-        $categoria->name = $request->name;
-        $categoria->save();
+        $categoria->update(['name' => $request->name]);
 
         session()->flash('success', "Categoria $categoria->name atualizada com sucesso.");
         return redirect()->route('categorias.index');
@@ -90,9 +87,16 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $categoria)
     {
-        $categoria->delete();
 
-        session()->flash('success', "Categoria $categoria->name deletado com sucesso");
-        return redirect()->route('categorias.index');
+        if ($categoria->posts->count() > 0) {
+            session()->flash('error', "Categoria $categoria->name
+            não pode ser excluída porque contêm algumas postagens");
+
+            return redirect()->back();
+        }
+
+        //$categoria->delete();
+        session()->flash('success', "Categoria $categoria->name deletada com sucesso");
+        return redirect(route('categorias.index'));
     }
 }

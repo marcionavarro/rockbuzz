@@ -147,11 +147,13 @@ return [
 
     'attributes' => [
         'name' => 'nome',
+        'about' => 'sobre mim',
         'title' => 'titulo',
         'description' => 'descrição',
         'image' => 'imagem',
         'content' => 'conteúdo',
-        'published_at' => 'publicar em'
+        'category' => 'categoria',
+        'published_at' => 'publicar em',
     ],
 
 ];

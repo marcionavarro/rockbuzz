@@ -14,7 +14,8 @@ class AddCompletePostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->integer('category_id')->default()->after('id');
+            $table->integer('user_id')->default()->after('id');
+            $table->integer('category_id')->default()->after('user_id');
             $table->string('description')->default('')->after('title');
             $table->text('content')->default('')->after('description')->change();
             $table->string('image')->default('')->after('content');
@@ -30,7 +31,7 @@ class AddCompletePostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn(['description', 'content', 'image', 'published_at']);
+            $table->dropColumn(['user_id', 'category_id', 'description', 'content', 'image', 'published_at']);
         });
     }
 }

@@ -19,6 +19,11 @@ class User extends Authenticatable
         'name', 'email', 'password', 'about'
     ];
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -38,7 +43,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
+
     public function isAdmin()
     {
         return $this->role === 'admin';

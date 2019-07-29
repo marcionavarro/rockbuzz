@@ -26,7 +26,7 @@
                     <td><a href="{{ route('categorias.edit', $post->category->id) }}">{{ $post->category->name }}</a></td>
                     <td class="d-flex justify-content-end">
                         @if ($post->trashed())
-                        <form method="post" action="{{ route('restaurar-post', $post->id) }}">
+                        <form method="post" action="{{ route('restore-posts', $post->id) }}">
                             @csrf
                             @method('PUT')
                             <button class="btn btn-success btn-sm text-white" type="submit">restaurar post</button>

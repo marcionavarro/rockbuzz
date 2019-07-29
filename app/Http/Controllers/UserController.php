@@ -38,6 +38,6 @@ class UserController extends Controller
         $user->save();
 
         session()->flash('success', "Usuário $user->name modificado para admin com sucesso");
-        return redirect()->route('usuarios.index');
+        return redirect()->route('users.index');
     }
 }

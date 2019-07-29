@@ -50,6 +50,8 @@ class PostsController extends Controller
         $image = $request->image->store('posts');
         // criar o post
         $post = Post::create([
+            'user_id' => auth()->user()->id,
+            'category_id' => $request->category,
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,

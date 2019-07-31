@@ -1,8 +1,6 @@
 @extends('layouts.blog')
 
-@section('title')
-RockBuzz - Blog
-@endsection
+
 
 @section('header')
 <!-- Header -->

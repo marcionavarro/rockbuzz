@@ -38,7 +38,7 @@ class TagsController extends Controller
     {
         $tag = Tag::create([
             'name' => $request->name,
-            'slug' -> str_slug($request->name)
+            'slug' => str_slug($request->name)
         ]);
 
         session()->flash('success', "Tag $tag->name criada com sucesso");

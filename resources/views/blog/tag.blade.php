@@ -1,9 +1,5 @@
 @extends('layouts.blog')
 
-@section('title')
-RockBuzz - Tag {{ $tag->name }}
-@endsection
-
 @section('header')
 <!-- Header -->
 <header class="header text-center text-white"
@@ -12,7 +8,6 @@ RockBuzz - Tag {{ $tag->name }}
 
         <div class="row">
             <div class="col-md-8 mx-auto">
-
                 <h1>{{ $tag->name }}</h1>
                 <p class="lead-2 opacity-90 mt-6">Leia e fique atualizado sobre como progredimos</p>
 

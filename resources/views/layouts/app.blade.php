@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }} - Dashboard</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,7 +24,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
                     Rockbuzz Teste Full Stack Laravel
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -52,9 +52,8 @@
                         </li>
                         @endif
                         @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="/posts">Posts</a>
-                        </li>
+                        <li class="nav-item"><img class="img-thumbnail rounded-circle border-primary"
+                                src="{{ Gravatar::src(Auth::user()->email) }}" alt="" width="40"></li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

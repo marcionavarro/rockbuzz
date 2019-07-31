@@ -1,9 +1,5 @@
 @extends('layouts.blog')
 
-@section('title')
-{{ $post->title }}
-@endsection
-
 @section('header')
 <!-- Header -->
 <header class="header text-white h-fullscreen pb-80"

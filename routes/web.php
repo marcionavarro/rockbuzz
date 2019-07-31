@@ -20,8 +20,6 @@ Route::get('blog/post/{slug}', [PostsController::class, 'show'])->name('blog.sho
 Route::get('blog/categoria/{slug}', 'Blog\PostsController@category')->name('blog.category');
 Route::get('blog/tag/{slug}', [PostsController::class, 'tag'])->name('blog.tag');
 
-
-
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {

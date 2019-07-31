@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
 
-    <title>@yield('title')</title>
+    {!! ($head ?? '') !!}
 
     <!-- Styles -->
     <link href="{{ asset('css/page.min.css') }}" rel="stylesheet">

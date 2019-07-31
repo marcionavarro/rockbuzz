@@ -1,9 +1,5 @@
 @extends('layouts.blog')
 
-@section('title')
-RockBuzz - Categoria {{ $categoria->name }}
-@endsection
-
 @section('header')
 <!-- Header -->
 <header class="header text-center text-white"

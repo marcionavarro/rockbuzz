@@ -25,7 +25,7 @@ class AddSlugTagTable extends Migration
      */
     public function down()
     {
-        Schema::table('tagss', function (Blueprint $table) {
+        Schema::table('tags', function (Blueprint $table) {
             $table->dropColumn('slug');
         });
     }

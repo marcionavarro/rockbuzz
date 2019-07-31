@@ -53,6 +53,7 @@ class PostsController extends Controller
             'user_id' => auth()->user()->id,
             'category_id' => $request->category,
             'title' => $request->title,
+            'slug' => str_slug($request->title),
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
@@ -103,6 +104,7 @@ class PostsController extends Controller
     {
 
         $data = $request->only(['title', 'description', 'content', 'category', 'published_at']);
+        $post->slug = str_slug($request->title);
         $post->category_id = $data['category'];
 
         // verifique se a nova imagem
@@ -119,7 +121,7 @@ class PostsController extends Controller
         if ($request->tags) {
             $post->tags()->sync($request->tags);
         }
-
+        
         // atualizar o post
         $post->update($data);
 

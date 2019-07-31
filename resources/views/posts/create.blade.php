@@ -77,19 +77,6 @@
             </div>
 
             <div class="form-group">
-                <label for="category">Categoria</label>
-                <select id="category" class="form-control" name="category">
-                    <option value="">Escolha uma categoria</option>
-                    @foreach ($categorias as $categoria)
-                    <option value="{{ ($categoria->id) }}"
-                        {{ (isset($post) ? ($categoria->id == $post->category_id ? 'selected' : '') : '') }}>
-                        {{ $categoria->name }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
                 <label for="published_at">Publicar Em:</label>
                 <input id="published_at" class="form-control" type="text" name="published_at"
                     value="{{ (isset($post) ? $post->published_at : '') }}">
@@ -112,10 +99,11 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.1.1/trix.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+
 <script>
     flatpickr('#published_at', {
         enableTime: true,
@@ -125,6 +113,38 @@
 
     $(document).ready(function() {
         $('.tags-selector').select2();
+    });
+</script>
+
+<script type="text/javascript">
+    Trix.config.attachments.preview.caption.name = true
+    Trix.config.attachments.preview.caption.size = false
+    document.addEventListener("trix-initialize", function(event) {
+      Trix.Inspector.install(event.target);
+    });
+    document.addEventListener("trix-attachment-add", function(event) {
+      var attachment = event.attachment;
+
+      if (attachment.file) {
+        var xhr = new XMLHttpRequest;
+        xhr.open("POST", "/attachments", true);
+        xhr.upload.onprogress = function(event) {
+          var progress = event.loaded / event.total * 100;
+          attachment.setUploadProgress(progress);
+        };
+        xhr.onload = function() {
+          if (xhr.status === 201) {
+            setTimeout(function() {
+              var url = xhr.responseText;
+              attachment.setAttributes({ url: url, href: url });
+            }, 30)
+          }
+        };
+        attachment.setUploadProgress(10);
+        setTimeout(function() {
+          xhr.send(attachment.file);
+        }, 30)
+      }
     });
 </script>
 @endsection

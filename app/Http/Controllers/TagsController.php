@@ -37,7 +37,8 @@ class TagsController extends Controller
     public function store(TagRequest $request)
     {
         $tag = Tag::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'slug' -> str_slug($request->name)
         ]);
 
         session()->flash('success', "Tag $tag->name criada com sucesso");
@@ -76,6 +77,7 @@ class TagsController extends Controller
     public function update(TagRequest $request, Tag $tag)
     {
         $tag->name = $request->name;
+        $tag->slug = str_slug($request->name);
         $tag->save();
 
         session()->flash('success', "Tag $tag->name atualizada com sucesso.");

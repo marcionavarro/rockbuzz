@@ -35,31 +35,33 @@ RockBuzz - Blog
             @forelse ($posts as $post)
             <div class="col-md-6">
               <div class="card border hover-shadow-6 mb-6 d-block">
-                <a href="{{ route('blog.show', $post->id) }}"><img class="card-img-top"
-                    src="{{ asset('storage/' . $post->image) }}" alt="Card image cap"></a>
+                <a href="{{ route('blog.show', ['post' => $post->slug]) }}"><img class="card-img-top"
+                    src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->name }}"></a>
                 <div class="p-6 text-center">
-                  <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400" href="#">{{ $post->category->name }}</a>
+                  <p><a class="small-5 text-lighter text-uppercase ls-2 fw-400"
+                      href="{{ route('blog.category', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                   </p>
                   <h5 class="mb-0"><a class="text-dark"
-                      href="{{ route('blog.show', $post->id) }}">{{ $post->title }}</a>
+                      href="{{ route('blog.show', ['post' => $post->slug]) }}">{{ $post->title }}</a>
                   </h5>
                 </div>
               </div>
             </div>
             @empty
             <div class="container bg-primary text-white">
-                <h4 class="text-center p-5">Não existem resultados para sua pesquisa: <b class="text-dark">{{ request()->query('search') }}</b></h4>
+              <h4 class="text-center p-5">Não existem resultados para sua pesquisa: <b
+                  class="text-dark">{{ request()->query('search') }}</b></h4>
             </div>
-           
+
             @endforelse
           </div>
-
-
 
           {{ $posts->appends(['search' => request()->query('search')])->links() }}
         </div>
 
+        <!-- SIDEBAR -->
         @include('includes.sidebar')
+        <!-- /SIDEBAR -->
 
       </div>
     </div>

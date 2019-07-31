@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Blog\PostsController;
 
 // use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +16,11 @@ use App\Http\Controllers\Blog\PostsController;
 */
 
 Route::get('/', 'WelcomeController@index')->name('welcome');
-Route::get('blog/posts/{post}', [PostsController::class, 'show'])->name('blog.show');
-Route::get('blog/categorias/{categoria}',  [PostsController::class, 'category'])->name('blog.category');
-Route::get('blog/tags/{tag}', [PostsController::class, 'tag'])->name('blog.tag');
+Route::get('blog/post/{slug}', [PostsController::class, 'show'])->name('blog.show');
+Route::get('blog/categoria/{slug}', 'Blog\PostsController@category')->name('blog.category');
+Route::get('blog/tag/{slug}', [PostsController::class, 'tag'])->name('blog.tag');
+
+
 
 Auth::routes();
 

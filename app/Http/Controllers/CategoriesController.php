@@ -36,7 +36,10 @@ class CategoriesController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $categoria = Category::create(['name' => $request->name]);
+        $categoria = Category::create([
+            'name' => $request->name,
+            'slug' => str_slug($request->name)
+            ]);
 
         session()->flash('success', "Categoria $categoria->name criada com sucesso");
         return redirect()->route('categorias.index');
@@ -73,7 +76,10 @@ class CategoriesController extends Controller
      */
     public function update(CategoryRequest $request, Category $categoria)
     {
-        $categoria->update(['name' => $request->name]);
+        $categoria->update([
+            'name' => $request->name, 
+            'slug' => str_slug($request->name)
+            ]);
 
         session()->flash('success', "Categoria $categoria->name atualizada com sucesso.");
         return redirect()->route('categorias.index');
@@ -95,7 +101,8 @@ class CategoriesController extends Controller
             return redirect()->back();
         }
 
-        //$categoria->delete();
+        $categoria->delete();
+        
         session()->flash('success', "Categoria $categoria->name deletada com sucesso");
         return redirect(route('categorias.index'));
     }

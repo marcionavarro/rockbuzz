@@ -15,7 +15,7 @@ class Post extends Model
     protected $dates = ['published_at'];
 
     protected $fillable = [
-        'user_id', 'category_id', 'image', 'title', 'description', 'content', 'published_at'
+        'user_id', 'category_id', 'image', 'title', 'slug', 'description', 'content', 'published_at'
 
     ];
 

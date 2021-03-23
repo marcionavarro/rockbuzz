@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Category;
 use App\Tag;
-
+use Illuminate\Http\Response;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Test\Constraint\ResponseIsRedirected;
 
 
 class PostsController extends Controller
@@ -21,9 +26,9 @@ class PostsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('posts.index')->with('posts', Post::all());
     }
@@ -31,9 +36,9 @@ class PostsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('posts.create')->with(['categorias' => Category::all(), 'tags' => Tag::all()]);
     }
@@ -41,28 +46,30 @@ class PostsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PostRequest $request
+     * @return RedirectResponse
      */
     public function store(PostRequest $request)
     {
         // Uploade a imagem para armazenamento
         $image = $request->image->store('posts');
+
         // criar o post
-        $post = Post::create([
-            'user_id' => auth()->user()->id,
-            'category_id' => $request->category,
-            'title' => $request->title,
-            'slug' => str_slug($request->title),
-            'description' => $request->description,
-            'content' => $request->content,
-            'image' => $image,
-            'published_at' => $request->published_at
-        ]);
+         $post = Post::create([
+             'user_id' => auth()->user()->id,
+             'category_id' => $request->category,
+             'title' => $request->title,
+             'slug' => str_slug($request->title),
+             'description' => $request->description,
+             'content' => $request->input('content'),
+             'image' => $image,
+             'published_at' => $request->published_at
+         ]);
 
         if ($request->tags) {
             $post->tags()->attach($request->tags);
         }
+
 
         // mensagem flash
         session()->flash('success', "Post $post->title criado com sucesso");
@@ -74,8 +81,8 @@ class PostsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -85,8 +92,8 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
     public function edit(Post $post)
     {
@@ -96,9 +103,9 @@ class PostsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdatePostRequest $request
+     * @param Post $post
+     * @return RedirectResponse
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
@@ -121,7 +128,7 @@ class PostsController extends Controller
         if ($request->tags) {
             $post->tags()->sync($request->tags);
         }
-        
+
         // atualizar o post
         $post->update($data);
 
@@ -132,11 +139,37 @@ class PostsController extends Controller
         return redirect()->route('posts.index');
     }
 
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            //get filename with extension
+            $filenamewithextension = $request->file('file')->getClientOriginalName();
+
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+            //get file extension
+            $extension = $request->file('file')->getClientOriginalExtension();
+
+            //filename to store
+            $filenametostore = $filename . '_' . time() . '.' . $extension;
+
+            //Upload File
+            $request->file('file')->storeAs('uploads', $filenametostore);
+
+            // you can save image path below in database
+            $path = asset('storage/uploads/' . $filenametostore);
+
+            echo $path;
+            exit;
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
@@ -158,7 +191,7 @@ class PostsController extends Controller
     /**
      * Exibir uma lista de todas as postagens descartadas
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function trashed()
     {
@@ -170,8 +203,8 @@ class PostsController extends Controller
     /**
      * Restaurar o post da lixeira
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse
      */
     public function restore($id)
     {

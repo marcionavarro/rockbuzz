@@ -28,11 +28,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categorias', 'CategoriesController');
 
     Route::resource('posts', 'PostsController');
+    Route::post('upload', 'PostsController@upload');
     Route::resource('tags', 'TagsController');
-
     Route::get('posts-na-lixeira', 'PostsController@trashed')->name('trashed-posts.index');
     Route::put('restaurar-post/{post}', 'PostsController@restore')->name('restore-posts');
 });
+
+
 
 Route::middleware(['admin', 'auth'])->group(function () {
     Route::get('usuarios/editar-perfil', 'UserController@edit')->name('users.edit-profile');
